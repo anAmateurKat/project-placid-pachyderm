@@ -65,7 +65,7 @@ my_locations = [Location('van',[43.75, 79.87],['https://picsum.photos/id/17/200/
 @app.route('/')
 @app.route('/index.html')
 def index():
-   return render_template('index.html', title="About Me", firstname="First", lastname="Last", url=os.getenv("URL"))
+   return render_template('index.html', title="About Me", firstname="Placid", lastname="Akat", url=os.getenv("URL"))
 
 @app.route('/hobbies.html')
 def hobbies():
