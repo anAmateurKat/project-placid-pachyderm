@@ -1,4 +1,6 @@
+from email.policy import default
 import os
+import datetime
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
 from peewee import * 
@@ -15,7 +17,19 @@ mydb = MySQLDatabase(os.getenv("MYSQL_DATABASE"),
 
 print(mydb)
 
-   
+# public timeline to post updates in school & career journey
+class TimelinePost(Model):
+    name = CharField()
+    email = CharField()
+    content = TextField()
+    created_at = DateTimeField(default=datetime.now)
+
+    class Meta:
+        database = mydb
+
+mydb.connect()
+mydb.create_tables([TimelinePost])
+ 
 
 # variables
 class Hobby:
