@@ -1,11 +1,21 @@
 import os
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
+from peewee import * 
 
 load_dotenv()
 app = Flask(__name__)
 
 
+# connect to MySQL database
+mydb = MySQLDatabase(os.getenv("MYSQL_DATABASE"),
+                     user=os.getenv("MYSQL_USER"),
+                     password=os.getenv("MYSQL_PASSWORD"),
+                     port=3306)
+
+print(mydb)
+
+   
 
 # variables
 class Hobby:
