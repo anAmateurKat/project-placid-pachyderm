@@ -1,7 +1,7 @@
 from crypt import methods
 from email.policy import default
 import os
-import datetime
+from datetime import datetime
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
 from peewee import * 
@@ -100,11 +100,15 @@ def hobbies():
 
 @app.route('/experiences.html')
 def experiences():
-    return render_template('experiences.html', education=my_education, experiences=my_experiences, add_experiences=my_additional_experiences, title="My Experiences")
+    return render_template('experiences.html', title="My Experiences", education=my_education, experiences=my_experiences, add_experiences=my_additional_experiences)
 
 @app.route('/projects.html')
 def projects():
     return render_template('projects.html', title="Projects", projects=my_projects)
+
+@app.route('/timelineposts.html')
+def timelineposts():
+    return render_template('timelineposts.html', title="My Posts")
 
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
