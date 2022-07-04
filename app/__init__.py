@@ -2,9 +2,11 @@ from crypt import methods
 from email.policy import default
 import os
 from datetime import datetime
+from sqlite3 import Time
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
 from peewee import * 
+from peewee import fn
 from playhouse.shortcuts import model_to_dict
 
 load_dotenv()
@@ -106,9 +108,9 @@ def experiences():
 def projects():
     return render_template('projects.html', title="Projects", projects=my_projects)
 
-@app.route('/timelineposts.html')
-def timelineposts():
-    return render_template('timelineposts.html', title="My Posts")
+#@app.route('/timelineposts.html')
+#def timelineposts():
+#    return render_template('timelineposts.html', title="My Posts")
 
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
@@ -128,6 +130,19 @@ def get_time_line_post():
         ]
     }
 
-# start the development server using the run() method
+@app.route('/api/timeline_post', methods=['DELETE'])
+def delete_time_line_post():
+    #Model.select(#fields) returns ModelSelect query
+    #Model.get(*query, **filters) returns a single model instance matching the specified filters
+
+    subq = TimelinePost.select(fn.MAX(TimelinePost.created_at)).scalar() 
+    row_to_del = TimelinePost.get(TimelinePost.created_at == subq)
+    row_to_del.delete_instance()
+
+    return{
+        'deleted': 
+            model_to_dict(row_to_del)
+    }
+
 if __name__ == "__main__":
     app.run(debug=True)
