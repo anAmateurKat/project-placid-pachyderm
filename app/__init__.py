@@ -108,9 +108,9 @@ def experiences():
 def projects():
     return render_template('projects.html', title="Projects", projects=my_projects)
 
-#@app.route('/timelineposts.html')
-#def timelineposts():
-#    return render_template('timelineposts.html', title="My Posts")
+@app.route('/timeline.html')
+def timelineposts(): 
+    return render_template('timeline.html', title="Timeline")
 
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
@@ -122,7 +122,7 @@ def post_time_line_post():
     return model_to_dict(timeline_post)
 
 @app.route('/api/timeline_post', methods=['GET'])
-def get_time_line_post():
+def get_time_line_post(): 
     return{
         'timeline_posts': [
             model_to_dict(p)
@@ -131,10 +131,11 @@ def get_time_line_post():
     }
 
 @app.route('/api/timeline_post', methods=['DELETE'])
-def delete_time_line_post():
-    #Model.select(#fields) returns ModelSelect query
+def delete_time_line_post(): 
+    #Model.select(#fields) returns ModelSelect query 
     #Model.get(*query, **filters) returns a single model instance matching the specified filters
 
+    #* need to handle case where DB table is empty 
     subq = TimelinePost.select(fn.MAX(TimelinePost.created_at)).scalar() 
     row_to_del = TimelinePost.get(TimelinePost.created_at == subq)
     row_to_del.delete_instance()
@@ -146,3 +147,4 @@ def delete_time_line_post():
 
 if __name__ == "__main__":
     app.run(debug=True)
+ 
