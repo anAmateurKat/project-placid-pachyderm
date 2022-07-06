@@ -135,7 +135,7 @@ def delete_time_line_post():
     #Model.select(#fields) returns ModelSelect query 
     #Model.get(*query, **filters) returns a single model instance matching the specified filters
 
-    #handle case where DB is empty 
+    #* need to handle case where DB table is empty 
     subq = TimelinePost.select(fn.MAX(TimelinePost.created_at)).scalar() 
     row_to_del = TimelinePost.get(TimelinePost.created_at == subq)
     row_to_del.delete_instance()
@@ -147,3 +147,4 @@ def delete_time_line_post():
 
 if __name__ == "__main__":
     app.run(debug=True)
+ 
