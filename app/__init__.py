@@ -13,11 +13,20 @@ load_dotenv()
 app = Flask(__name__)
 
 
-# connect to MySQL database
-mydb = MySQLDatabase(os.getenv("MYSQL_DATABASE"),
-                     user=os.getenv("MYSQL_USER"),
-                     password=os.getenv("MYSQL_PASSWORD"),
-                     port=3306)
+# Connect to MySQL database
+# Want to use an in-memory instance of the database when executing tests so 
+# that our tests are not dependent upon a separate mysql instance. 
+# We can do this by setting the mydb variable to an in-memory sqlite 
+# database during testing.
+#
+if os.getenv("TESTING") == "true":
+    print("Running in test mode")
+    mydb = SqliteDatabase('file:memory?mode=memory&cache=shared', uri=True)
+else:
+    mydb = MySQLDatabase(os.getenv("MYSQL_DATABASE"),
+                        user=os.getenv("MYSQL_USER"),
+                        password=os.getenv("MYSQL_PASSWORD"),
+                        port=3306)
 
 print(mydb)
 
