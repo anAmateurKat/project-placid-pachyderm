@@ -1,0 +1,11 @@
+.results p{
+    margin-bottom: 0rem;
+}
+
+.post{
+    background-color: #99b7cf;
+    border-radius: 25px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 2px 4px grey;
+}
