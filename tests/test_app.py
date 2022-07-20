@@ -22,7 +22,7 @@ class AppTestCase(unittest.TestCase):
         assert '<link rel="stylesheet" href="static/styles/index.css">' in html
         assert '<img src="static/img/profile-pic.png" alt="Picture of Yourself" width="480" height="400">' in html
 
-     def test_timeline(self):
+    def test_timeline(self):
         # checks timeline page elements
         response = self.client.get("/timeline.html")
         assert response.status_code == 200
