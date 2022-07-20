@@ -139,6 +139,8 @@ def post_time_line_post():
         return "Error. Name should not be empty", 400
     if email == "":
         return "Error. Email should not be empty", 400
+    if "@" not in email:
+        return "Error. Invalid email", 400
     if content == "":
         return "Error. Content should not be empty", 400
 
