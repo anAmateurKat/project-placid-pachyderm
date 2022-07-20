@@ -90,7 +90,7 @@ class AppTestCase(unittest.TestCase):
         assert response.status_code == 400, f"Response code: {response.status_code} html response is: {html}"
         assert "Error. Content should not be empty" in html
 
-        # POST request with malformed email
+        # POST request missing email
         response = self.client.post('/api/timeline_post', data={
             "name": "John Doe",
             "content": "Hello world, I'm John!"
@@ -98,3 +98,13 @@ class AppTestCase(unittest.TestCase):
         html = response.get_data(as_text=True)
         assert response.status_code == 400, f"Response code: {response.status_code} html response is: {html}"
         assert "Error. Request missing the field 'email'" in html
+        
+        # POST request with malformed email
+        response = self.client.post('/api/timeline_post', data={
+            "name": "John Doe",
+            "email": "johndoe-email.com",
+            "content": "Hello world, I'm John!"
+        })
+        html = response.get_data(as_text=True)
+        assert response.status_code == 400, f"Response code: {response.status_code} html response is: {html}"
+        assert "Error. Invalid email" in html
