@@ -36,7 +36,21 @@ form.addEventListener('submit', function(e){
         method: "POST",
         body: payload,
     })
-    .then(res => res.json())    //handle server response: extract the body of the response object and convert json to JS object
+    .then(res => {
+        //check if the response type is JSON before parsinf the response body
+        let isJson = res.headers.get('content-type')?.includes('application/json'); //unsure about this syntax
+        let data = isJson ? res.json() : null;
+
+        //check for error response
+        if(!res.ok){
+            if(res.status == 429){
+                window.alert("Rate limit has been reached!");
+            }
+            let error = (data && data.message) || res.status;
+            return Promise.reject(error);
+        }
+        return data;
+    })
     .then(data => showPost(data))
     .catch(err => console.log(err));
 
